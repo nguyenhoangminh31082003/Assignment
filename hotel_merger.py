@@ -8,7 +8,7 @@ from hotel.image import Image
 class HotelMerger:
 
     @staticmethod
-    def merge_information_list(a: list[str], b: list[str]) -> list[str]:
+    def merge_and_deduplicate_lists(a: list[str], b: list[str]) -> list[str]:
         return list(set(a) | set(b))
 
     @staticmethod
@@ -32,8 +32,8 @@ class HotelMerger:
     @classmethod
     def merge_amenities(cls, a: Amenities, b: Amenities) -> Amenities:
         return Amenities(
-            general=cls.merge_information_list(a.general, b.general),
-            room=cls.merge_information_list(a.room, b.room)
+            general=cls.merge_and_deduplicate_lists(a.general, b.general),
+            room=cls.merge_and_deduplicate_lists(a.room, b.room)
         )
     
     @classmethod
@@ -67,5 +67,7 @@ class HotelMerger:
             name=cls.choose_more_specific_string(a.name, b.name),
             description=cls.choose_more_specific_string(a.description, b.description),
             location=cls.merge_location(a.location, b.location),
-            booking_conditions=cls.merge_information_list(a.booking_conditions, b.booking_conditions)
+            amenities=cls.merge_amenities(a.amenities, b.amenities),
+            images=cls.merge_images(a.images, b.images),
+            booking_conditions=cls.merge_and_deduplicate_lists(a.booking_conditions, b.booking_conditions)
         )

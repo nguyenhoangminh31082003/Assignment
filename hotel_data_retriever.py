@@ -4,6 +4,8 @@ from suppliers.acme_supplier import AcmeSupplier
 from suppliers.patagonia_supplier import PatagoniaSupplier
 from suppliers.paperflies_supplier import PaperfliesSupplier
 
+import json
+
 class HotelDataRetriever:
 
     def __init__(self):
@@ -13,9 +15,13 @@ class HotelDataRetriever:
             PaperfliesSupplier()
         ]
 
+        self.hotels = self._retrieve_and_merge_data()
+
+    def _retrieve_and_merge_data(self) -> list[dict]:
         hotels = {}
 
         for supplier in self.suppliers:
+
             for hotel in supplier.get_parsed_data():
                 key = (hotel.id, hotel.destination_id)
                 if key in hotels:
@@ -23,7 +29,7 @@ class HotelDataRetriever:
                 else:
                     hotels[key] = hotel
 
-        self.hotels = [asdict(hotel) for hotel in hotels.values()]     
+        return [asdict(hotel) for hotel in hotels.values()] 
 
     def get_hotels(self, hotel_ids: list[str], destination_ids: list[int]) -> list[dict]:
 
