@@ -12,14 +12,18 @@ class AcmeSupplier(Supplier):
     @staticmethod
     def parse_data(raw_data: dict) -> Hotel:
 
-        location = Location(lat=raw_data["Latitude"],
-                            lng=raw_data["Longitude"],
-                            address=raw_data["Address"],
-                            city=raw_data["City"],
-                            country=raw_data["Country"])
+        location = Location(
+            lat=raw_data["Latitude"],
+            lng=raw_data["Longitude"],
+            address=raw_data["Address"],
+            city=raw_data["City"],
+            country=raw_data["Country"]
+        )
 
-        return Hotel(id=raw_data["Id"],
-                     destination_id=raw_data["DestinationId"],
-                     name=raw_data["Name"],
-                     description=raw_data["Description"],
-                     location=location)
+        return Hotel(
+            id=raw_data["Id"],
+            destination_id=raw_data["DestinationId"],
+            name=raw_data["Name"],
+            description=raw_data["Description"],
+            location=location
+        )

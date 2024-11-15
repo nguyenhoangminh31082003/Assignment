@@ -15,25 +15,31 @@ class PaperfliesSupplier(Supplier):
     @staticmethod
     def parse_data(raw_data: dict) -> Hotel:
 
-        location = Location(address=raw_data["location"]["address"],
-                            country=raw_data["location"]["country"])
+        location = Location(
+            address=raw_data["location"]["address"],
+            country=raw_data["location"]["country"]
+        )
 
-        amenties = Amenities(general=raw_data["amenities"]["general"],
-                             room=raw_data["amenities"]["room"])
+        amenties = Amenities(
+            general=raw_data["amenities"]["general"],
+            room=raw_data["amenities"]["room"]
+        )
 
         roomImages = PaperfliesSupplier.parse_image_list(raw_data["images"]["rooms"])
         siteImages = PaperfliesSupplier.parse_image_list(raw_data["images"]["site"])
 
         images = Images(rooms=roomImages, site=siteImages)
 
-        return Hotel(id=raw_data["hotel_id"],
-                     destination_id=raw_data["destination_id"],
-                     name=raw_data["hotel_name"],
-                     description=raw_data["details"],
-                     location=location,
-                     amenities=amenties,
-                     images=images,
-                     booking_conditions=raw_data["booking_conditions"])
+        return Hotel(
+            id=raw_data["hotel_id"],
+            destination_id=raw_data["destination_id"],
+            name=raw_data["hotel_name"],
+            description=raw_data["details"],
+            location=location,
+            amenities=amenties,
+            images=images,
+            booking_conditions=raw_data["booking_conditions"]
+        )
 
     @staticmethod
     def parse_image_list(raw_images: list[dict]) -> list[Image]:

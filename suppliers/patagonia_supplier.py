@@ -14,21 +14,25 @@ class PatagoniaSupplier(Supplier):
     @staticmethod
     def parse_data(raw_data: dict) -> Hotel:
 
-        location = Location(lat=raw_data["lat"],
-                            lng=raw_data["lng"],
-                            address=raw_data["address"])
+        location = Location(
+            lat=raw_data["lat"],
+            lng=raw_data["lng"],
+            address=raw_data["address"]
+        )
 
         roomImages = PatagoniaSupplier.parse_image_list(raw_data["images"]["rooms"])
         amenityImages = PatagoniaSupplier.parse_image_list(raw_data["images"]["amenities"])
 
         images = Images(rooms=roomImages, amenities=amenityImages)
 
-        return Hotel(id=raw_data["id"],
-                     destination_id=raw_data["destination"],
-                     name=raw_data["name"],
-                     description=raw_data["info"],
-                     location=location,
-                     images=images)
+        return Hotel(
+            id=raw_data["id"],
+            destination_id=raw_data["destination"],
+            name=raw_data["name"],
+            description=raw_data["info"],
+            location=location,
+            images=images
+        )
 
     @staticmethod
     def parse_image_list(raw_images: list[dict]) -> list[Image]:
