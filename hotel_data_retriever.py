@@ -1,26 +1,26 @@
-from hotel.hotel import Hotel
+from dataclasses import asdict
+from hotel_merger import HotelMerger
 from suppliers.acme_supplier import AcmeSupplier
 from suppliers.patagonia_supplier import PatagoniaSupplier
 from suppliers.paperflies_supplier import PaperfliesSupplier
 
-
 class HotelDataRetriever:
 
-  def __init__(self):
-    self.suppliers = [
-        AcmeSupplier(),
-        PatagoniaSupplier(),
-        PaperfliesSupplier()
-    ]
+    def __init__(self):
+        self.suppliers = [
+            AcmeSupplier(),
+            PatagoniaSupplier(),
+            PaperfliesSupplier()
+        ]
 
-  @staticmethod
-  def merge_hotel_record(a: Hotel, b: Hotel) -> Hotel:
-    assert (a.id == b.id) and (
-        a.destination_id == b.destination_id
-    ), "Only records refering to the same hotel can be merged"
+        hotels = {}
 
-    return Hotel(a.id, b.destination_id)
+        for supplier in self.suppliers:
+            for hotel in supplier.get_parsed_data():
+                key = (hotel.id, hotel.destination_id)
+                hotels[key] = hotel
 
-  def get_hotels(self, hotel_ids: list[str],
-                 destination_ids: list[int]) -> list[dict]:
-    return []
+        self.hotels = [asdict(hotel) for hotel in hotels.values()]     
+
+    def get_hotels(self, hotel_ids: list[str], destination_ids: list[int]) -> list[dict]:
+        return [hotel for hotel in self.hotels if hotel['id'] in hotel_ids and hotel['destination_id'] in destination_ids]
