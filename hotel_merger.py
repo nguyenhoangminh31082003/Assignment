@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Any
 from hotel.hotel import Hotel
 from hotel.location import Location
 from hotel.amenities import Amenities
@@ -18,12 +18,16 @@ class HotelMerger:
         if not b:
             return a
         return a if len(a) > len(b) else b
+    
+    @staticmethod
+    def choose_first_applicable_data(a: Any, b: Any) -> Any:
+        return a or b
 
     @classmethod
     def merge_location(cls, a: Location, b: Location) -> Location:
         return Location(
-            lat=a.lat or b.lat,
-            lng=a.lng or b.lng,
+            lat=cls.choose_first_applicable_data(a.lat, b.lat),
+            lng=cls.choose_first_applicable_data(a.lng, b.lng),
             address=cls.choose_more_specific_string(a.address, b.address),
             city=cls.choose_more_specific_string(a.city, b.city),
             country=cls.choose_more_specific_string(a.country, b.country)
