@@ -12,7 +12,7 @@ This component retrieves raw hotel data from multiple suppliers and standardizes
 
 2. **Merging Component**
 
-This component merges different attributes of the same hotels from various sources into a unified representation. It is mainly implemented through the `HotelMerger` class which also defines different strategies for selecting the most appropriate data.
+This component defines strategies for selecting the most appropriate data to merge attributes of the same hotels from various sources into a unified representation. The `HotelMerger` class serves as the primary implementation of this functionality.
 
 3. **Retrieving Component**
 
